@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { QueueItem } from '../../../../core/models/queue';
+import { QueueItem } from '../../models/queue';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
@@ -9,7 +9,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
   styleUrl: './ticket-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TicketList {
+export class TicketListComponent {
   @Input({ required: true }) items!: readonly QueueItem[];
   @Input() selectedId: string | null = null;
 

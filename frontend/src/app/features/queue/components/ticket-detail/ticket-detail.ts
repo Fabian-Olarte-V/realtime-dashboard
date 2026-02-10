@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { QueueItem } from '../../../../core/models/queue';
+import { QueueItem } from '../../models/queue';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './ticket-detail.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TicketDetail {
+export class TicketDetailComponent {
   @Input() item: QueueItem | null = null;
 
   @Output() assignToMe = new EventEmitter<void>();

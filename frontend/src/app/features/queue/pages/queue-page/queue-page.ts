@@ -1,33 +1,39 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { QueueFilters, QueueItem } from '../../../../core/models/queue';
-import { QueueToolbar } from '../../components/queue-toolbar/queue-toolbar';
-import { TicketDetail } from '../../components/ticket-detail/ticket-detail';
-import { TicketList } from '../../components/ticket-list/ticket-list';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { QueueFilters, QueueItem } from '../../models/queue';
+import { QueueToolbarComponent } from '../../components/queue-toolbar/queue-toolbar';
+import { TicketDetailComponent } from '../../components/ticket-detail/ticket-detail';
+import { TicketListComponent } from '../../components/ticket-list/ticket-list';
+import { Store } from '@ngrx/store';
+import * as QueueSelectors from '../../store/queue.selectors';
+import * as QueueActions from '../../store/queue.actions';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-queue-page',
   standalone: true,
-  imports: [TicketDetail, TicketList, QueueToolbar],
+  imports: [TicketDetailComponent, TicketListComponent, QueueToolbarComponent, AsyncPipe],
   templateUrl: './queue-page.html',
   styleUrl: './queue-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QueuePage {
-  filters: QueueFilters = { searchText: '', status: 'ALL', sort: 'updatedAt_desc' };
-  selectedId: string | null = null;
+export class QueuePage implements OnInit {
+  private readonly store = inject(Store);
 
-  items: readonly QueueItem[] = makeMockTickets(50);
+  readonly filters$ = this.store.select(QueueSelectors.selectFilters);
+  readonly items$ = this.store.select(QueueSelectors.selectFilteredTickets);
+  readonly selectedItem$ = this.store.select(QueueSelectors.selectSelectedTicket);
+  readonly selectedId$ = this.store.select(QueueSelectors.selectSelectedId);
 
-  get selectedItem(): QueueItem | null {
-    return this.items.find((x) => x.id === this.selectedId) ?? null;
+  ngOnInit(): void {
+    this.store.dispatch(QueueActions.seedTickets({ items: makeMockTickets(50) }));
   }
 
-  onFiltersChange(next: QueueFilters): void {
-    this.filters = next;
+  onFiltersChange(filters: QueueFilters): void {
+    this.store.dispatch(QueueActions.setFilters({ filters }));
   }
 
   onSelectItem(id: string): void {
-    this.selectedId = id;
+    this.store.dispatch(QueueActions.selectTicket({ id }));
   }
 
   onAssignToMe(): void {

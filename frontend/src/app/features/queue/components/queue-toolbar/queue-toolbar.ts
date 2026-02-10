@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { QueueFilters } from '../../../../core/models/queue';
+import { QueueFilters } from '../../models/queue';
 
 @Component({
   selector: 'app-queue-toolbar',
@@ -7,7 +7,7 @@ import { QueueFilters } from '../../../../core/models/queue';
   templateUrl: './queue-toolbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QueueToolbar {
+export class QueueToolbarComponent {
   @Input({ required: true }) filters!: QueueFilters;
   @Output() filtersChange = new EventEmitter<QueueFilters>();
 
