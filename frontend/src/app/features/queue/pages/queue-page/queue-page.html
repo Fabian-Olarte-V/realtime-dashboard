@@ -1,1 +1,24 @@
-<p>queue-page works!</p>
+<section class="queue-page">
+  <app-queue-toolbar
+    [filters]="filters"
+    (filtersChange)="onFiltersChange($event)"
+  ></app-queue-toolbar>
+
+  <div class="layout">
+    <div class="panel panel--small">
+      <app-ticket-list
+        [items]="items"
+        [selectedId]="selectedId"
+        (selectItem)="onSelectItem($event)"
+      ></app-ticket-list>
+    </div>
+
+    <div class="panel panel--large">
+      <app-ticket-detail
+        [item]="selectedItem"
+        (assignToMe)="onAssignToMe()"
+        (complete)="onComplete()"
+      ></app-ticket-detail>
+    </div>
+  </div>
+</section>

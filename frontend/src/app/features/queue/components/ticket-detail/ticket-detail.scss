@@ -1,0 +1,18 @@
+.ticket-detail {
+	.title {
+		margin-top: 0;
+	}
+
+	.meta {
+		display: flex;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.actions {
+		margin-top: 16px;
+		display: flex;
+		gap: 12px;
+	}
+}
+

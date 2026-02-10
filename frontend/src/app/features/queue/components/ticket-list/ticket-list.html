@@ -1,0 +1,17 @@
+<cdk-virtual-scroll-viewport itemSize="57" class="ticket-list-viewport">
+  <div
+    *cdkVirtualFor="let item of items; trackBy: trackById"
+    (click)="selectItem.emit(item.id)"
+    (keydown.enter)="selectItem.emit(item.id)"
+    (keydown.space)="$event.preventDefault(); selectItem.emit(item.id)"
+    role="button"
+    tabindex="0"
+    class="ticket-item"
+  >
+    <div class="ticket-item-row">
+      <strong>{{ item.title }}</strong>
+      <span>{{ item.status }}</span>
+    </div>
+    <small>Priority: {{ item.priority }} · Updated: {{ item.updatedAt }}</small>
+  </div>
+</cdk-virtual-scroll-viewport>

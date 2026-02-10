@@ -1,0 +1,19 @@
+@if (item) {
+  <div class="ticket-detail">
+    <h2 class="title">{{ item.title }}</h2>
+    <p class="description">{{ item.description || 'No description' }}</p>
+
+    <div class="meta">
+      <span><strong>Status:</strong> {{ item.status }}</span>
+      <span><strong>Priority:</strong> {{ item.priority }}</span>
+      <span><strong>Deadline:</strong> {{ item.deadlineAt }}</span>
+    </div>
+
+    <div class="actions">
+      <button (click)="assignToMe.emit()">Assign to me</button>
+      <button (click)="complete.emit()">Complete</button>
+    </div>
+  </div>
+} @else {
+  <p>Select a ticket to see details.</p>
+}

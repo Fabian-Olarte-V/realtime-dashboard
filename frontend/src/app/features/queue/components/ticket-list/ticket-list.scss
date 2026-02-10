@@ -1,0 +1,17 @@
+.ticket-list-viewport {
+	height: 520px;
+	width: 100%;
+}
+
+.ticket-item {
+	cursor: pointer;
+	padding: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+.ticket-item-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+}
+
