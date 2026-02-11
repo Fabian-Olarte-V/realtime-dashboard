@@ -1,20 +1,29 @@
-import { QueueFilters, QueueItem } from "../models/queue";
+import { QueueFilters, QueueItem } from '../models/queue';
 
 export interface QueueState {
   items: Record<string, QueueItem>;
-  ids: string[]; // sorted order
   selectedItemId: string | null;
   filters: QueueFilters;
+
+  // sorting order
+  ids: string[];
+
+  //polling
+  pollingEnabled: boolean;
+  pollingIntervalMs: number;
+  lastSyncAt: string | null;
+
+  //polling error handling
+  pollingError: string | null;
 }
 
 export const initialQueueState: QueueState = {
   items: {},
-  ids: [],
   selectedItemId: null,
-  filters: {
-    searchText: '',
-    sort: 'updatedAt_desc',
-    status: 'ALL',
-  },
+  filters: { searchText: '', sort: 'updatedAt_desc', status: 'ALL' },
+  ids: [],
+  pollingEnabled: false,
+  pollingIntervalMs: 5000,
+  lastSyncAt: null,
+  pollingError: null,
 };
-

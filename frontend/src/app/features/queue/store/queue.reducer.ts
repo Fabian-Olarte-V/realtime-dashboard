@@ -6,29 +6,47 @@ export const queueFeatureKey = 'queue';
 
 export const queueReducer = createReducer(
   initialQueueState,
-  on(QueueActions.seedTickets, (state, { items }) => {
+  on(QueueActions.setFilters, (state, { filters }) => ({
+    ...state,
+    filters: filters,
+  })),
+
+  on(QueueActions.selectTicket, (state, { id }) => ({
+    ...state,
+    selectedItemId: id,
+  })),
+
+  on(QueueActions.startPolling, (state) => ({
+    ...state,
+    pollingEnabled: true,
+    pollingError: null,
+  })),
+
+  on(QueueActions.stopPolling, (state) => ({
+    ...state,
+    pollingEnabled: false,
+  })),
+
+  on(QueueActions.pollSuccess, (state, { items }) => {
     const entities = { ...state.items };
-    const ids: string[] = [];
+    const ids = new Set(state.ids);
 
     for (const item of items) {
       entities[item.id] = item;
-      ids.push(item.id);
+      if (!ids.has(item.id)) ids.add(item.id);
     }
 
     return {
       ...state,
       items: entities,
-      ids,
+      ids: Array.from(ids),
+      lastSyncAt: "",
+      pollingError: null,
     };
   }),
 
-  on(QueueActions.setFilters, (state, { filters }) => ({
+  on(QueueActions.pollFailure, (state, { error }) => ({
     ...state,
-    filters: filters,
-  })),
-  
-  on(QueueActions.selectTicket, (state, { id }) => ({
-    ...state,
-    selectedItemId: id,
+    pollingError: error,
   })),
 );

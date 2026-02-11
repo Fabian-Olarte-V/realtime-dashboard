@@ -1,24 +1,29 @@
 <section class="queue-page">
-  <app-queue-toolbar
-    [filters]="(filters$ | async)!"
-    (filtersChange)="onFiltersChange($event)"
-  ></app-queue-toolbar>
+  @if (pollingError$ | async; as error) {
+    <div class="error-banner">Error: {{ error }}</div>
+  } 
+  @else {
+    <app-queue-toolbar
+      [filters]="(filters$ | async)!"
+      (filtersChange)="onFiltersChange($event)"
+    ></app-queue-toolbar>
 
-  <div class="layout">
-    <div class="panel panel--small">
-      <app-ticket-list
-        [items]="(items$ | async)!"
-        [selectedId]="(selectedId$ | async)!"
-        (selectItem)="onSelectItem($event)"
-      ></app-ticket-list>
-    </div>
+    <div class="layout">
+      <div class="panel panel--small">
+        <app-ticket-list
+          [items]="(items$ | async)!"
+          [selectedId]="(selectedId$ | async)!"
+          (selectItem)="onSelectItem($event)"
+        ></app-ticket-list>
+      </div>
 
-    <div class="panel panel--large">
-      <app-ticket-detail
-        [item]="(selectedItem$ | async)!"
-        (assignToMe)="onAssignToMe()"
-        (complete)="onComplete()"
-      ></app-ticket-detail>
+      <div class="panel panel--large">
+        <app-ticket-detail
+          [item]="(selectedItem$ | async)!"
+          (assignToMe)="onAssignToMe()"
+          (complete)="onComplete()"
+        ></app-ticket-detail>
+      </div>
     </div>
-  </div>
+  }
 </section>

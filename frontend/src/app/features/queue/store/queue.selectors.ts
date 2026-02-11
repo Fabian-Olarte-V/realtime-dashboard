@@ -3,10 +3,19 @@ import { QueueState } from './queue.models';
 import { queueFeatureKey } from './queue.reducer';
 
 export const selectQueueState = createFeatureSelector<QueueState>(queueFeatureKey);
+export const selectQueueIds = createSelector(selectQueueState, (s) => s.ids);
+
 
 export const selectQueueEntities = createSelector(selectQueueState, (s) => s.items);
-export const selectQueueIds = createSelector(selectQueueState, (s) => s.ids);
 export const selectSelectedId = createSelector(selectQueueState, (s) => s.selectedItemId);
+
+export const selectSelectedTicket = createSelector(
+  selectQueueEntities,
+  selectSelectedId,
+  (entities, id) => (id ? (entities[id] ?? null) : null),
+);
+
+
 export const selectFilters = createSelector(selectQueueState, (s) => s.filters);
 
 export const selectAllTickets = createSelector(
@@ -30,8 +39,6 @@ export const selectFilteredTickets = createSelector(
   },
 );
 
-export const selectSelectedTicket = createSelector(
-  selectQueueEntities,
-  selectSelectedId,
-  (entities, id) => (id ? (entities[id] ?? null) : null),
-);
+
+export const selectLastSyncAt = createSelector(selectQueueState, (s) => s.lastSyncAt);
+export const selectPollingError = createSelector(selectQueueState, (s) => s.pollingError);
